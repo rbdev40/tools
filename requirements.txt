@@ -1,0 +1,11 @@
+django
+gunicorn
+django-heroku
+pandas
+scipy
+matplotlib
+statsmodels
+sklearn
+whitenoise
+pprint
+xlrd

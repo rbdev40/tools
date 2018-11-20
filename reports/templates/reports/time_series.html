@@ -1,0 +1,120 @@
+{% extends "./base.html" %}
+
+{% block content %}
+    
+<div class="page-header">
+    <h1>Time Series</h1>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-7">
+        
+        <canvas id="chart" width="600" height="400"></canvas>
+        
+    </div>
+    <div class="col-sm-5">
+        
+        <form action="{% url 'time_series' %}">
+            <div class="dropdown">
+                <label for="pwd">Does Process Have Drift:</label>
+                <select name="drift">
+                    <option value="1">yes</option>
+                    <option value="0">no</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="pwd">Mean of Drift:</label>
+                <input type="text" class="form-control" name="mean_of_drift" value="{{ mean_of_drift|default_if_none:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Volatility:</label>
+                <input type="text" class="form-control" name="volatility" value="{{ volatility|default_if_none:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Jump Parameter:</label>
+                <input type="text" class="form-control" name="jump_parameter" value="{{ jump_parameter|default_if_none:'' }}">
+            </div>  
+            <div class="form-group">
+                <label for="pwd"># of Time Steps:</label>
+                <input type="text" class="form-control" name="time_steps" value="{{ time_steps|default_if_none:'' }}">
+            </div> 
+            <div class="dropdown">
+                <label for="pwd">Type of Process:</label>
+                <select name="define_process">
+                    <option value="brownian_motion">Brownian Motion</option>
+                    <option value="geometric_motion">Geometric Motion</option>
+                    <option value="brownian_momentum">Brownian Momentum</option>
+                    <option value="OU_process">OU Process</option>
+                </select>
+            </div>
+            <div class="button">
+                <input type="submit" value="Run"/>
+            </div>
+        </form>
+  
+    </div> 
+</div>
+
+
+
+ {% if showchart%}
+        <script>
+           // bar chart data
+           var barData = {
+           labels : [{% for item in labels %}
+                          "{{item}}",
+                      {% endfor %}],
+           datasets : [
+              {
+                    fillColor: "rgba(151,187,205,0.2)",
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(151,187,205,1)",
+                    bezierCurve : false,
+            data : [{% for item in values %}
+                          {{item}},
+                        {% endfor %}]
+              }]
+           }
+ 
+            // Chart.defaults.global.legend.display = false
+            Chart.defaults.global.animationSteps = 10;
+            Chart.defaults.global.tooltipYPadding = 16;
+            Chart.defaults.global.tooltipCornerRadius = 0;
+            Chart.defaults.global.tooltipTitleFontStyle = "normal";
+            Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+            Chart.defaults.global.animationEasing = "easeOutBounce";
+            Chart.defaults.global.responsive = false;
+            Chart.defaults.global.scaleLineColor = "black";
+            Chart.defaults.global.scaleFontSize = 16;
+
+ 
+           // get chart canvas
+           var mychart = document.getElementById("chart").getContext("2d");
+ 
+           steps = 10
+           max = 150
+           // draw chart
+           var LineChartDemo = new Chart(mychart).Line(barData, {
+                scaleOverride: true,
+                scaleSteps: steps,
+                scaleStepWidth: Math.ceil(max / steps),
+                scaleStartValue: 0,
+                scaleShowVerticalLines: false,
+                scaleShowGridLines : false,
+                barShowStroke : true,
+                scaleShowLabels: true,
+                bezierCurve: false,
+ 
+           });
+
+        //<input type="submit" name="submit" value="Do Something Else">
+ 
+        </script>
+        {%endif%}
+
+
+{% endblock content %}
