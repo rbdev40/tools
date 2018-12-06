@@ -1,22 +1,26 @@
+#spinner-modal {
 
+    text-align: center;
+    padding: 0!important;
 
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
+}
 
+#spinner-modal:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+}
 
+#spinner-modal .modal-content {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#spinner-modal .modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+}
