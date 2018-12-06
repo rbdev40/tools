@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import pandas as pd
 import pprint
+import os
 
 def drawdown(request):
     import reports.modules.correlport_v1 as correlport_v1
@@ -15,7 +16,7 @@ def index(request):
     
 def dashboard(request):
     
-    data = pd.read_csv('reports/data/port.csv')
+    data = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'reports/data/port.csv'))
 
     lab = data.columns.values
     weights = data.iloc[0,:]
