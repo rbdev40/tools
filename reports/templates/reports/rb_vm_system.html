@@ -1,0 +1,15 @@
+{% extends "./base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>RB VM System</h1>
+</div>
+
+{% for table in tables %}
+    
+    {{ table | safe }}
+    
+{% endfor %}
+
+{% endblock content %}

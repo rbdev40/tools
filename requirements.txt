@@ -9,3 +9,6 @@ sklearn
 whitenoise
 pprint
 xlrd
+more_itertools
+datetime
+hmmlearn

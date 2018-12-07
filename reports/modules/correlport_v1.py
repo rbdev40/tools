@@ -164,19 +164,23 @@ def drawDown(data):
 ### ------- This Code will Calculate the Average Largest Drawdown -----------
 
 def generateImage():
-    num = 100
+    num = 10
 
-    for k in range(0,100):
+    for k in range(0,10):
         print("Simulation #", k )
         portfolio, prices = sim_cor(mu, sigma, x)
         maxArray.iloc[k,1] = drawDown(portfolio)
 
     make_graph(prices)
 
-# z = maxArray.iloc[:100,1].mean()
+def getDrawdown():
+    z = maxArray.iloc[:10,1].mean()
+    return(z)
 # print(z)
 #
-# q = maxArray.iloc[:100,1].min()
+def getVar():
+    q = maxArray.iloc[:10,1].min()
+    return(q)
 # print(q)
 
 

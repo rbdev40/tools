@@ -6,9 +6,7 @@ import pprint
 def drawdown(request):
     import reports.modules.correlport_v1 as correlport_v1
     correlport_v1.generateImage()
-    var = correlport_v1.getVar()
-    drawdown = correlport_v1.getDrawdown()
-    context = {'var': var, 'drawdown': drawdown}
+    context = {}
     return render(request, 'reports/drawdown.html', context)
 
 def index(request):
@@ -80,12 +78,11 @@ def rb_aqr_macro(request):
     return render(request, 'reports/rb_aqr_macro.html', context)
 
 
-
 def rb_vm_system(request):
     
     import reports.modules.weight_gen as wg
     
-    data = wg.getData()
+    data = rb.getData()
     
     tables = [];
     
@@ -93,18 +90,8 @@ def rb_vm_system(request):
         tables.append(d[0].to_html(float_format=lambda x: '%4.3f' % (x), classes="table table-striped table-hover table-condensed"))
     
     context = {'tables': tables}
-    return render(request, 'reports/rb_vm_system.html', context)
-
-
-def vol_regime(request):
-    
-    import reports.modules.vol_regime as vol_regime
-    vol_regime.generateImage()
-    var = vol_regime.getStat1()
-    drawdown = vol_regime.getStat2()
-    context = {'var': var, 'drawdown': drawdown}
-    return render(request, 'reports/volatility.html', context)
+    return render(request, 'reports/weight5.html', context)
 
 
 
-
+#### End of Script
