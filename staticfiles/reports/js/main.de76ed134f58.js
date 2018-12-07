@@ -1,10 +1,12 @@
-
+alert('test')
 
 (function () {
 
     'use strict';
 
     $(document).ready(function () {
+        
+        
     
         window.showSpinner = function () {
             
@@ -21,8 +23,6 @@
             }
             
         };
-        
-        $('#navbar a').click(showSpinner);
 
     });
 
