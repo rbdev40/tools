@@ -116,7 +116,7 @@ def sim_cor(mu,sigma,x):
 
 # Graph The Results of the Correlated Assets
 def make_graph(prices):
-    fig = plt.figure(figsize=(16,12))
+    fig = plt.figure(figsize=(32,24))
     prices.iloc[0:252,0:18].plot()
     plt.title('Correlation')
     plt.savefig('staticfiles/drawdown')
