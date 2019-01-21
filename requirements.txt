@@ -11,4 +11,4 @@ pprint
 xlrd
 more_itertools
 datetime
-hmmlearn
+hmmlearn.hmm

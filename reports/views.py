@@ -18,15 +18,21 @@ def index(request):
     
 def dashboard(request):
     
-    data = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'reports/data/port.csv'))
+    #data = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'reports/data/port.csv'))
+    data = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'reports/data/port2.csv'))
 
-    lab = data.columns.values
-    weights = data.iloc[0,:]
+    #original data prep
+    #lab = data.columns.values
+    #weights = data.iloc[0,:]
+    #risk = [1.65,29.9,19.5,6.3,9.7]
+    #values2 = [1.58,983,3.32,6.15,1.57,4,7,8]
 
-    sigma = [1.65,29.9,19.5,6.3, 9.7]
-    values2 = [1.58,983,3.32,6.15,1.57,4,7,8]
-    
-    risk = sigma
+    #new data pull
+    lab = data.iloc[7:11,0]
+    weights = data.iloc[7:11,1]
+    risk = data.iloc[0:5,1]
+    values2 = data.iloc[0:8,1]
+
     labels = lab
     values = weights
     colors = [ "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA"]

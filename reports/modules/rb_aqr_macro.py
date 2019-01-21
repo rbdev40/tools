@@ -112,10 +112,10 @@ def getData():
     # COUNTRIES = ["US", "UK", "JAPAN", "CANADA", "AUSTRALIA", "SWISS", "DENMARK"]
     #countries = ['US', 'UK', 'Japan', 'Canada', 'Australia', 'Switzerland', 'Denmark', 'HK', 'Sweden', 'NZ']
 
-    return [(sigs2.iloc[-3:,0:4],'Macro Momentum US'),  # -24 displays the last 2 years of data
-                   (sigs2.iloc[-3:,4:8],'Macro Momentum UK'),
-                   (sigs2.iloc[-3:,8:12],'Macro Momentum Japan'),
-                   (sigs2.iloc[-3:,12:16],'Macro Momentum Canada'),
-                   (sigs2.iloc[-3:,16:20],'Macro Momentum Australia'),
-                   (sigs2.iloc[-3:,20:24],'Macro Momentum Switzerland'),
-                   (sigs2.iloc[-3:,24:28],'Macro Momentum Denamrk')]
+    return [(sigs2.iloc[-1:,0:4],'Macro Momentum US'),  # -24 displays the last 2 years of data
+                   (sigs2.iloc[-1:,4:8],'Macro Momentum UK'),
+                   (sigs2.iloc[-1:,8:12],'Macro Momentum Japan'),
+                   (sigs2.iloc[-1:,12:16],'Macro Momentum Canada'),
+                   (sigs2.iloc[-1:,16:20],'Macro Momentum Australia'),
+                   (sigs2.iloc[-1:,20:24],'Macro Momentum Switzerland'),
+                   (sigs2.iloc[-1:,24:28],'Macro Momentum Denamrk')]
