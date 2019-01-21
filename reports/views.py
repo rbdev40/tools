@@ -6,10 +6,15 @@ import os
 
 def drawdown(request):
     import reports.modules.correlport_v1 as correlport_v1
-    correlport_v1.generateImage()
+    
+    variable = request.GET.get('variable')
+    
+    if not (variable is None):
+        correlport_v1.generateImage()
+    
     var = correlport_v1.getVar()
     drawdown = correlport_v1.getDrawdown()
-    context = {'var': var, 'drawdown': drawdown}
+    context = {'var': var, 'drawdown': drawdown, 'variable': variable}
     return render(request, 'reports/drawdown.html', context)
 
 def index(request):
