@@ -119,7 +119,8 @@ def make_graph(prices):
     fig = plt.figure(figsize=(32,24))
     prices.iloc[0:252,0:18].plot()
     plt.title('Correlation')
-    plt.savefig('staticfiles/drawdown')
+    plt.savefig(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'staticfiles/drawdown'))
+    # plt.savefig('staticfiles/drawdown')
 
 # Output results to a csv File
 # with open('output2.csv', 'wb') as f:
