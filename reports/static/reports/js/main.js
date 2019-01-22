@@ -11,9 +11,9 @@
             if (!$('form.dirty')[0]) {
                 $('#spinner-modal').modal('show');
             
-                window.setTimeout(function () {
-                    $('#spinner-modal').modal('hide');
-                }, 10000);
+                // window.setTimeout(function () {
+                //     $('#spinner-modal').modal('hide');
+                // }, 10000);
             
                 $(window).unload(function() {
                     $('#spinner-modal').modal('hide');
@@ -21,6 +21,8 @@
             }
             
         };
+        
+        $('#navbar a').click(showSpinner);
 
     });
 
