@@ -7,6 +7,14 @@
     <h1>vol_regime</h1>
 </div>
 
-<p><img src="{% static 'Clusters.png' %}" alt="" class="img-responsive"></p>
+<div class="row">
+    <div class="col-sm-4">
+        <p><strong>Var:</strong> {{ var }}</p>
+        <p><strong>Drawdown:</strong> {{ drawdown }}</p>
+    </div>
+    <div class="col-sm-7 col-sm-offset-1">
+        <img src="{% static 'Clusters.png' %}" alt="" class="img-responsive">
+    </div>
+</div>
 
 {% endblock content %}
