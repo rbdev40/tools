@@ -23,14 +23,14 @@ def index(request):
     
 def dashboard(request):
     
-    #data = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'reports/data/port.csv'))
-    data = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'reports/data/port2.csv'))
-
-    #original data prep
-    #lab = data.columns.values
-    #weights = data.iloc[0,:]
-    #risk = [1.65,29.9,19.5,6.3,9.7]
-    #values2 = [1.58,983,3.32,6.15,1.57,4,7,8]
+    import reports.modules.hashtool as hashtool
+    
+    data_file_path = 'reports/data/port2.csv'
+    full_data_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), data_file_path)
+    
+    data = pd.read_csv(full_data_file_path)
+    
+    data_file_md5 = hashtool.md5file(full_data_file_path)
 
     #new data pull
     lab = data.iloc[7:11,0]
