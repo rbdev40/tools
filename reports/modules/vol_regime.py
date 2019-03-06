@@ -13,7 +13,7 @@ from django.core.cache import cache
 
 def make_graph(data2):
     data2.plot(kind='scatter', x='a', y='b', c='clusters')
-    plt.savefig('staticfiles/Clusters.png')
+    plt.savefig(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'staticfiles/Clusters.png'))
 
 def generateImage():
     import reports.modules.hashtool as hashtool
