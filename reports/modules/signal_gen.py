@@ -12,6 +12,7 @@ import itertools
 from pandas import Series, DataFrame
 import pandas as pd
 import numpy as np
+import os
 
 #-------------------------------------------------------------------------------
 #  UTILITY FUNCTIONS
@@ -184,8 +185,11 @@ def signals(mkt_data, json_data, drop_periods):
     return vs.reindex(columns=names), ms.reindex(columns=names)
 
 def main():
+    
+    data_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/Datain0426.xlsx')
+    
     mkt_data = pd.read_excel(
-        'reports/data/Datain0426.xlsx', # changed from m3_csv
+        data_file_path, # changed from m3_csv
         index_col=0, usecols=range(sg.DATAIN_COLUMNS), dayfirst=False,
         parse_dates=True, na_values=['#VALUE!', '#NAME?', '#DIV/0!', '#N/A'],
         header=0, names=sg.data_columns())
@@ -194,7 +198,10 @@ def main():
     #     index_col=0, usecols=range(DATAIN_COLUMNS), dayfirst=False,
     #     parse_dates=True, na_values=['#VALUE!', '#NAME?', '#DIV/0!', '#N/A'],
     #     header=0, names=data_columns())
-    json_file = open('reports/data/param.json')
+    
+    json_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/param.json')
+    
+    json_file = open(json_file_path)
     json_data = json.load(json_file)
     (vs, ms) = signals(mkt_data, json_data, 121)
 
