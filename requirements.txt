@@ -12,3 +12,8 @@ xlrd
 more_itertools
 datetime
 hmmlearn.hmm
+numpy
+requests
+decimal
+bs4
+urlopen
