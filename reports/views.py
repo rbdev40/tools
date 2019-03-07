@@ -109,7 +109,6 @@ def rb_vm_system(request):
 
 
 def vol_regime(request):
-    
     import reports.modules.vol_regime as vol_regime
     vol_regime.generateImage()
     var = vol_regime.getStat1()
@@ -118,5 +117,11 @@ def vol_regime(request):
     return render(request, 'reports/volatility.html', context)
 
 
-
+def amzn(request):
+    import reports.modules.amzn as amzn
+    amzn.generateImage()
+    #var = amzn.getStat1()
+    #drawdown = amzn.getStat2()
+    #context = {'var': var, 'drawdown': drawdown}
+    return render(request, 'reports/amzn.html', context)
 
