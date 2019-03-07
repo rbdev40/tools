@@ -21,8 +21,6 @@
             }
             
         };
-        
-        $('#navbar a').click(showSpinner);
 
     });
 

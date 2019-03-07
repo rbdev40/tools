@@ -18,9 +18,6 @@ sum1 = pd.DataFrame(np.zeros((100,35)))
 countries = ['US', 'UK', 'Japan', 'Canada', 'Australia', 'Switzerland', 'Denmark', 'HK', 'Sweden', 'NZ']
 frames = [None]*7
 
-def test():
-    print('test')
-
 def read(z):
     xl_dict = {}
     sheetname_list = ['US', 'UK', 'Japan', 'Canada', 'Australia', 'Switzerland', 'Denmark', 'HK', 'Sweden', 'NZ']
@@ -42,7 +39,6 @@ def returns(data,inc):
                 pass
             temp2.iloc[i,j] = (data.iloc[i,j]/data.iloc[i-12,j]-1) # twelve month return
             temp3.iloc[i,j+inc] = (data.iloc[i,j]/data.iloc[i-1,j]-1) # twelve month return
-    #temp2.to_csv("Temp_file_for_AQR_Model"+str(k)+".csv")
     return temp2, temp3
 
 def cleaned(k,inc):
@@ -90,7 +86,6 @@ def final(raw_data,inc,sigs):
     return d_ret
 
 def getData():
-    #a = 12 # number of months to look back in the data
     inc = 0
     for i in range(0,7):
         ret1, ret2 = cleaned(i,inc)
@@ -102,15 +97,6 @@ def getData():
     sigs.columns = sigs.iloc[0,:]
     sigs.reindex(idx)
     sigs2 = sigs.iloc[116:,:]
-    #print(sigs2)
-
-    # ret.to_csv("returns_x_signals.csv")
-    # sigs2.to_csv("final_system_signals.csv")
-    # sum1.to_csv("summary_stats.csv")
-    # total_series.to_csv("total_return_series.csv")
-
-    # COUNTRIES = ["US", "UK", "JAPAN", "CANADA", "AUSTRALIA", "SWISS", "DENMARK"]
-    #countries = ['US', 'UK', 'Japan', 'Canada', 'Australia', 'Switzerland', 'Denmark', 'HK', 'Sweden', 'NZ']
 
     return [(sigs2.iloc[-1:,0:4],'Macro Momentum US'),  # -24 displays the last 2 years of data
                    (sigs2.iloc[-1:,4:8],'Macro Momentum UK'),

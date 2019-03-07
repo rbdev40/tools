@@ -4,6 +4,8 @@ from pandas import Series, DataFrame
 import pandas as pd
 from math import log
 import reports.modules.signal_gen as sg
+import os
+from django.core.cache import cache
 # import report
 
 EPSILON = 0.0001 # Floor for Log function
@@ -117,8 +119,24 @@ def weights(mkt_data, json_data):
     return (vs, ms, vf, mf, cf, vrf, mrf, crf)
 
 def getData():
+    import reports.modules.hashtool as hashtool
+    
+    mkt_data_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/Datain0426_m3.csv')
+    mkt_data2_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/Datain0426.xlsx')
+    json_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/param.json')
+    
+    mkt_data_file_md5 = hashtool.md5file(mkt_data_file_path)
+    mkt_data2_file_md5 = hashtool.md5file(mkt_data2_file_path)
+    json_file_md5 = hashtool.md5file(json_file_path)
+
+    cache_key = 'weight_gen' + ':' + mkt_data_file_md5 + ':' + mkt_data2_file_md5 + ':' + json_file_md5;
+    cached_result = cache.get(cache_key)
+    
+    if cached_result is not None:
+        return cached_result
+    
     mkt_data = pd.read_csv(
-        'reports/data/Datain0426_m3.csv', # changed from m3_csv
+        mkt_data_file_path, # changed from m3_csv
         index_col=0, usecols=range(sg.DATAIN_COLUMNS), dayfirst=False,
         parse_dates=True, na_values=['#VALUE!', '#NAME?', '#DIV/0!', '#N/A'],
         header=0, names=sg.data_columns())
@@ -126,26 +144,24 @@ def getData():
 
     #### ** Key item is that we remove index_col=0 from the read_excel file
     mkt_data2 = pd.read_excel(
-        'reports/data/Datain0426.xlsx', # changed from m3_csv
+        mkt_data2_file_path, # changed from m3_csv
         usecols=range(sg.DATAIN_COLUMNS), dayfirst=False,
         parse_dates=True, na_values=['#VALUE!', '#NAME?', '#DIV/0!', '#N/A'], 
         header=0, names=sg.data_columns())
-    json_file = open('reports/data/param.json')
+    json_file = open(json_file_path)
     print(mkt_data2.shape)
 
     json_data = json.load(json_file)
     json_file.close()
     (vs, ms, vf, mf, cf, vrf, mrf, crf) = weights(mkt_data, json_data)
-    # report.report([(vf.ix[-24:,EQUITY],'Value Equity Positions'),  # -24 displays the lat 2 years of data
-    #                (vf.ix[-24:,NONEQUITY],'Value Non-Equity Positions'),
-    #                (mf.ix[-24:,EQUITY],'Momentum Equity Positions'),
-    #                (mf.ix[-24:,NONEQUITY],'Momentum Non-Equity Positions'),
-    #                (cf.ix[-24:,EQUITY],'V+M Equity Positions'),
-    #                (cf.ix[-24:,NONEQUITY],'V+M Non-Equity Positions')])
 
-    return [(vrf.ix[-24:,EQUITY],'Value Equity Positions'),  # -24 displays the lat 2 years of data
+    result = [(vrf.ix[-24:,EQUITY],'Value Equity Positions'),  # -24 displays the lat 2 years of data
                    (vrf.ix[-24:,NONEQUITY],'Value Non-Equity Positions'),
                    (mrf.ix[-24:,EQUITY],'Momentum Equity Positions'),
                    (mrf.ix[-24:,NONEQUITY],'Momentum Non-Equity Positions'),
                    (crf.ix[-24:,EQUITY],'V+M Equity Positions'),
                    (crf.ix[-24:,NONEQUITY],'V+M Non-Equity Positions')]
+    
+    cache.set(cache_key, result)
+                   
+    return result

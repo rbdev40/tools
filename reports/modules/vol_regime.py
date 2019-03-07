@@ -8,77 +8,57 @@ import statsmodels.api as sm
 import pylab as pl
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
-
-
-data = pd.read_csv('reports/data/vix_sp_test2.csv', index_col=0, header=0)
-data = pd.read_csv('reports/data/move_rates2.csv', index_col=0, header=0)
-data2 = pd.DataFrame(np.zeros((7247,3)), columns=['a', 'b', 'clusters'])
-
-#n_samples = 7046
-#n_features = 2
-#shape = [n_samples, n_features]
-
-# This is just an array for testing data
-#X = np.array([[1, 2], [1, 4], [1, 0], [4, 2], [4, 4], [4, 0]])
+import os
+from django.core.cache import cache
 
 def make_graph(data2):
-	#data2.to_csv('cluster_output.csv')
-	data2.plot(kind='scatter', x='a', y='b', c='clusters')
-	plt.savefig('staticfiles/Clusters.png')
-	#plt.show()
-
+    data2.plot(kind='scatter', x='a', y='b', c='clusters')
+    plt.savefig(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'staticfiles/clusters.png'))
 
 def generateImage():
-	kmeans = KMeans(n_clusters=5, random_state=0).fit(data)
-	labels = kmeans.labels_
-	#print(type(kmeans.labels_))
-	#print(kmeans.predict(data))
-	#print(kmeans.cluster_centers_)
+    import reports.modules.hashtool as hashtool
+    
+    data_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/move_rates2.csv')
+    
+    data_file_md5 = hashtool.md5file(data_file_path)
+    
+    cache_key = 'vol_regime' + ':' + data_file_md5
+    cached_data2 = cache.get(cache_key)
+    
+    if cached_data2 is not None:
+        return make_graph(cached_data2)
+    
+    data = pd.read_csv(data_file_path, index_col=0, header=0)
+    data2 = pd.DataFrame(np.zeros((7247,3)), columns=['a', 'b', 'clusters'])
+    
+    kmeans = KMeans(n_clusters=5, random_state=0).fit(data)
+    labels = kmeans.labels_
 
-	#np.savetxt("clusters.csv", labels, delimiter=",")
+    for i in range(1,7246):
+        data2.iloc[i,0] = data.iloc[i,0]
+        data2.iloc[i,1] = data.iloc[i,1]
+        data2.iloc[i,2] = int(labels[i])
 
-	for i in range(1,7246):
-		data2.iloc[i,0] = data.iloc[i,0]
-		data2.iloc[i,1] = data.iloc[i,1]
-		data2.iloc[i,2] = int(labels[i])
+    tran_mat = pd.DataFrame(np.zeros((5,5)))
+    prob_mat = pd.DataFrame(np.zeros((5,5)))
 
+    for i in range(1,7246):
+        a = int(data2.iloc[i,2])
+        b = int(data2.iloc[i+1,2])
+        tran_mat.iloc[a,b] = tran_mat.iloc[a,b] + 1
 
-	#columns=['a', 'b', 'c', 'd', 'e']
-	tran_mat = pd.DataFrame(np.zeros((5,5)))
-	prob_mat = pd.DataFrame(np.zeros((5,5)))
+    for i in range(0,5):
+        for j in range(0,5):
+            prob_mat.iloc[i,j] = tran_mat.iloc[i,j]/7246
+            
+    cache.set(cache_key, data2)
 
-	for i in range(1,7246):
-		a = int(data2.iloc[i,2])
-		b = int(data2.iloc[i+1,2])
-		tran_mat.iloc[a,b] = tran_mat.iloc[a,b] + 1
-
-
-	for i in range(0,5):
-		for j in range(0,5):
-			prob_mat.iloc[i,j] = tran_mat.iloc[i,j]/7246
-
-	make_graph(data2)
-
-#print(tran_mat)
-#print(prob_mat)
-
+    make_graph(data2)
 
 def getStat1():
-	getStat1 = 15
-	return(getStat1)
+    getStat1 = 15
+    return(getStat1)
 
 def getStat2():
-	getStat2 = 12
-	return(getStat2)
-
-# plt.figure('K-Means')
-# plt.scatter(data[2:,11], data[2:,1], c=kmeansoutput.labels_)
-# plt.xlabel('Volatility')
-# plt.ylabel('S&P 500 Level')
-# plt.title('K-Means')
-# plt.show()
-
-
-
-
-
+    getStat2 = 12
+    return(getStat2)
