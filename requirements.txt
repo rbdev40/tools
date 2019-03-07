@@ -11,13 +11,9 @@ pprint
 xlrd
 more_itertools
 datetime
-<<<<<<< HEAD
-hmmlearn.hmm
+hmmlearn
 numpy
 requests
 decimal
 bs4
 urlopen
-=======
-# hmmlearn.hmm
->>>>>>> 2e4c1783744420f48827ea9a95a5da3faf2f99d9
