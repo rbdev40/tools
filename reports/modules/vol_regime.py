@@ -43,7 +43,7 @@ def generateImage():
     kmeans = KMeans(n_clusters=5, random_state=0).fit(data)
     labels = kmeans.labels_
 
-    for i in range(1,7246): ## was 7246
+    for i in range(1,l): ## was 7246
         data2.iloc[i,0] = data.iloc[i,0]
         data2.iloc[i,1] = data.iloc[i,1]
         data2.iloc[i,2] = int(labels[i])
@@ -51,19 +51,19 @@ def generateImage():
     tran_mat = pd.DataFrame(np.zeros((5,5)))
     prob_mat = pd.DataFrame(np.zeros((5,5)))
 
-    for i in range(1,7246):  ## was 7246
+    for i in range(1,l):  ## was 7246
         a = int(data2.iloc[i,2])
         b = int(data2.iloc[i+1,2])
         tran_mat.iloc[a,b] = tran_mat.iloc[a,b] + 1
 
     for i in range(0,5):
         for j in range(0,5):
-            prob_mat.iloc[i,j] = tran_mat.iloc[i,j]/7246   ## was 7246
+            prob_mat.iloc[i,j] = tran_mat.iloc[i,j]/l   ## was 7246
             
     cache.set(cache_key, data2)
     
-    last_p = data2.iloc[7246,0]
-    last_p2 = data2.iloc[7246,1]
+    last_p = data2.iloc[l,0]
+    last_p2 = data2.iloc[l,1]
 
     make_graph(data2, last_p, last_p2)
     return [getStat1(last_p), getStat2()]
