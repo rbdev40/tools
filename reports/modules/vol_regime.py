@@ -38,7 +38,7 @@ def generateImage():
     
     data = pd.read_csv(data_file_path, index_col=0, header=0)
     l = len(data)
-    data2 = pd.DataFrame(np.zeros((7247,3)), columns=['a', 'b', 'clusters'])  ## was 7247
+    data2 = pd.DataFrame(np.zeros((l+1,3)), columns=['a', 'b', 'clusters'])  ## was 7247
     
     kmeans = KMeans(n_clusters=5, random_state=0).fit(data)
     labels = kmeans.labels_
