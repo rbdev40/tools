@@ -30,11 +30,11 @@ def generateImage():
     data_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/move_rates2.csv')
     data_file_md5 = hashtool.md5file(data_file_path)
     
-    cache_key = 'vol_regime' + ':' + data_file_md5
-    cached_data2 = cache.get(cache_key)
-    
-    if cached_data2 is not None:
-        return make_graph(cached_data2)
+    # cache_key = 'vol_regime' + ':' + data_file_md5
+    # cached_data2 = cache.get(cache_key)
+    #
+    # if cached_data2 is not None:
+    #     return make_graph(cached_data2)
     
     data = pd.read_csv(data_file_path, index_col=0, header=0)
     l = len(data)
