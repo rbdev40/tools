@@ -11,7 +11,7 @@
     <div class="col-sm-4">
         <form action="{% url 'drawdown' %}" method="get" accept-charset="utf-8">
             <div class="form-group">
-                <label for="variable">Variable:</label>
+                <label for="variable">Volatility:</label>
                 <input type="text" class="form-control" name="variable" value="{{ variable|default_if_none:'' }}">
             </div>
             <div class="form-group">
@@ -19,11 +19,11 @@
             </div>
         </form>
 
-        <p><strong>Variable:</strong> {{ variable }}</p>
+        <p><strong>Volatility:</strong> {{ variable }}</p>
 
-        <p><strong>Var:</strong> {{ var }}</p>
+        <p><strong>Average Drawdown:</strong> {{ var }}</p>
 
-        <p><strong>Drawdown:</strong> {{ drawdown }}</p>
+        <p><strong>Max Drawdown:</strong> {{ drawdown }}</p>
     </div>
     <div class="col-sm-7 col-sm-offset-1">
         <p><img src="{% static 'drawdown.png' %}" alt="" class="img-responsive"></p>
