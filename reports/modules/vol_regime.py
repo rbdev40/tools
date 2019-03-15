@@ -66,6 +66,6 @@ def generateImage():
     last_p2 = data2.iloc[7246,1]
 
     make_graph(data2, last_p, last_p2)
-    return [getStat1(last_p), getStat2(15)]
+    return [getStat1(last_p), getStat2()]
 
 
