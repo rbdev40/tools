@@ -60,7 +60,7 @@ def generateImage():
         for j in range(0,5):
             prob_mat.iloc[i,j] = tran_mat.iloc[i,j]/l   ## was 7246
             
-    cache.set(cache_key, data2)
+    # cache.set(cache_key, data2)
     
     last_p = data2.iloc[l,0]
     last_p2 = data2.iloc[l,1]
