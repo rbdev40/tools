@@ -13,13 +13,13 @@ from django.core.cache import cache
 
 def make_graph(data2):
     data2.plot(kind='scatter', x='a', y='b', c='clusters')
+    #data2.plot(x[0], y[0], 'g*')
     plt.savefig(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'staticfiles/clusters.png'))
 
 def generateImage():
     import reports.modules.hashtool as hashtool
     
     data_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/move_rates2.csv')
-    
     data_file_md5 = hashtool.md5file(data_file_path)
     
     cache_key = 'vol_regime' + ':' + data_file_md5
@@ -56,7 +56,7 @@ def generateImage():
     make_graph(data2)
 
 def getStat1():
-    getStat1 = 15
+    getStat1 = data2.iloc[i,7246]
     return(getStat1)
 
 def getStat2():
