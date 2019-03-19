@@ -12,9 +12,10 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import smtplib
 #import urllib3
-import urllib
-from urllib import request
+import urllib3
+#from urllib import request
 
+import requests
 
 import decimal
 from pandas import Series
@@ -32,36 +33,39 @@ import matplotlib.pyplot as plt
 #http = urllib3.PoolManager()
 
 def findPrice(url, selector):
-	userAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36"
+	userAgent = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36'}
 	#userAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36"
-	req = urllib.request.urlopen(url)
+	#req = urllib.request.urlopen(url)
 	#req = urllib.request(url, None, {'User-Agent': userAgent})
 	#html = urlopen(req).read()	
-	soup = BeautifulSoup(req.data)
+	#soup = BeautifulSoup(req.data)
 	#soup = BeautifulSoup(html, "lxml")
-
-	#userAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36"
+	#http = urllib3.PoolManager(10, headers=userAgent)
+	#http = urllib3.PoolManager()
 	# response = http.request('GET', url)
-	# soup = BeautifulSoup(response.data, features="html.parser")
-	# print(type(soup))
+	#response = http.request('GET', url, preload_content=False)
+	#soup = BeautifulSoup(response)
+
+
+	r = requests.get(url)
+	soup = BeautifulSoup(r.content)
+
 	return decimal.Decimal(soup.select(selector)[0].contents[0].strip().strip("$"))
 
-#try:
-batteries = findPrice("http://www.amazon.com/Energizer-Batteries-Battery-Alkaline-E91BP-24/dp/B004U429AQ", "#unifiedPrice_feature_div .a-size-large")
-laptops = findPrice("https://www.amazon.com/dp/B07GBJW7TS/ref=dp_prsubs_1", "#price .a-color-price")
+try:
+	batteries = findPrice("https://www.amazon.com/Energizer-Batteries-Battery-Alkaline-E91BP-24/dp/B004U429AQ", "#unifiedPrice_feature_div .a-size-large")
+	laptops = findPrice("https://www.amazon.com/dp/B07GBJW7TS/ref=dp_prsubs_1", "#price .a-color-price")
 	#laptops = findPrice("https://www.amazon.com/dp/B07GBJW7TS/ref=dp_prsubs_1") # erroneous call for testing purposes
 
-print(batteries)
-print(laptops)
-# except:
-# 	print("An exception has occured")
-# 	recipients = ['richdewey@gmail.com', 'rich@royalbridgecap.com']
-# 	smtpObj = smtplib.SMTP('smtp.office365.com', 587) 
-# 	smtpObj.ehlo()
-# 	smtpObj.starttls()
-# 	smtpObj.login('rich@royalbridgecap.com', 'Mot*bur66')
-# 	smtpObj.sendmail('rich@royalbridgecap.com',recipients, 'Subject: Problem with amazon script') # first is "from" second is "to"
-# 	smtpObj.quit()
+except:
+	print("An exception has occured")
+	recipients = ['richdewey@gmail.com', 'rich@royalbridgecap.com']
+	smtpObj = smtplib.SMTP('smtp.office365.com', 587) 
+	smtpObj.ehlo()
+	smtpObj.starttls()
+	smtpObj.login('rich@royalbridgecap.com', 'Mot*bur66')
+	smtpObj.sendmail('rich@royalbridgecap.com',recipients, 'Subject: Problem with amazon script') # first is "from" second is "to"
+	smtpObj.quit()
 
 
 #print message/send email that there has been an error
