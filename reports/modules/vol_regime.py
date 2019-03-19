@@ -9,7 +9,6 @@ import pylab as pl
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 import os
-from django.core.cache import cache
 
 def make_graph(data2, last_p, last_p2):
     data2.plot(kind='scatter', x='a', y='b', c='clusters')
@@ -25,16 +24,17 @@ def getStat2():
     return(getStat2)    
     
 def generateImage():
+    from django.core.cache import cache
     import reports.modules.hashtool as hashtool
     
     data_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/move_rates2.csv')
     data_file_md5 = hashtool.md5file(data_file_path)
     
-    # cache_key = 'vol_regime' + ':' + data_file_md5
-    # cached_data2 = cache.get(cache_key)
-    #
-    # if cached_data2 is not None:
-    #     return make_graph(cached_data2)
+    cache_key = 'vol_regime' + ':' + data_file_md5
+    cached_data2 = cache.get(cache_key)
+   
+    if cached_data2 is not None:
+        return cached_data2
     
     data = pd.read_csv(data_file_path, index_col=0, header=0)
     l = len(data)
@@ -59,13 +59,16 @@ def generateImage():
     for i in range(0,5):
         for j in range(0,5):
             prob_mat.iloc[i,j] = tran_mat.iloc[i,j]/l   ## was 7246
-            
-    # cache.set(cache_key, data2)
     
     last_p = data2.iloc[l,0]
     last_p2 = data2.iloc[l,1]
 
     make_graph(data2, last_p, last_p2)
-    return [getStat1(last_p), getStat2()]
+    
+    result = [getStat1(last_p), getStat2()]
+    
+    cache.set(cache_key, result)
+    
+    return result
 
 
