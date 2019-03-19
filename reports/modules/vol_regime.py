@@ -67,7 +67,7 @@ def generateImage():
     
     result = [getStat1(last_p), getStat2()]
     
-    cache.set(cache_key, result)
+    cache.set(cache_key, result, 604800)
     
     return result
 

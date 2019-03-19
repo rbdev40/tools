@@ -122,6 +122,6 @@ def getData():
                    (sigs2.iloc[-1:,20:24],'Macro Momentum Switzerland'),
                    (sigs2.iloc[-1:,24:28],'Macro Momentum Denamrk')]
 
-    cache.set(cache_key, result)
+    cache.set(cache_key, result, 604800)
                    
     return result

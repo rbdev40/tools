@@ -162,6 +162,6 @@ def getData():
                    (crf.ix[-24:,EQUITY],'V+M Equity Positions'),
                    (crf.ix[-24:,NONEQUITY],'V+M Non-Equity Positions')]
     
-    cache.set(cache_key, result)
+    cache.set(cache_key, result, 604800)
                    
     return result
