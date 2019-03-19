@@ -14,6 +14,7 @@ datetime
 hmmlearn
 numpy
 requests
-decimal
+#decimal
 bs4
 urlopen
+openpyxl

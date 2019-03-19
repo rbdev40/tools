@@ -123,5 +123,6 @@ def amzn(request):
     #var = amzn.getStat1()
     #drawdown = amzn.getStat2()
     #context = {'var': var, 'drawdown': drawdown}
+    context = {}
     return render(request, 'reports/amzn.html', context)
 

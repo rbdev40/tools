@@ -10,6 +10,7 @@ urlpatterns = [
     path('drawdown', views.drawdown, name='drawdown'),
     path('rb_vm_system', views.rb_vm_system, name='rb_vm_system'),
     path('vol_regime', views.vol_regime, name='vol_regime'),
+    path('amzn', views.amzn, name='amzn'),
 ]
 
 
