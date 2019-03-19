@@ -3,10 +3,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 
+data_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/rb_final_aqr_nets_v3_scaled.xls')
+
 temp = pd.DataFrame(np.zeros((456,4)), columns=['Inflation', 'FX', '2yr', 'Equities'])
 temp2 = pd.DataFrame(np.zeros((456,4)), columns=['Inflation', 'FX', '2yr', 'Equities'])
 
-t_port = pd.read_excel(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/rb_final_aqr_nets_v3_scaled.xls'))
+t_port = pd.read_excel(data_file_path)
 idx = t_port.index
 
 temp3 = pd.DataFrame(np.zeros((456,35)), index=idx)
@@ -22,7 +24,7 @@ def read(z):
     xl_dict = {}
     sheetname_list = ['US', 'UK', 'Japan', 'Canada', 'Australia', 'Switzerland', 'Denmark', 'HK', 'Sweden', 'NZ']
     for sheet in sheetname_list:
-        xl_dict[sheet] = pd.read_excel(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/rb_final_aqr_nets_v3_scaled.xls'), sheet_name=sheet)
+        xl_dict[sheet] = pd.read_excel(data_file_path, sheet_name=sheet)
     return(xl_dict)
 
 def transfer(xl_dict, k):
@@ -86,6 +88,20 @@ def final(raw_data,inc,sigs):
     return d_ret
 
 def getData():
+    from django.core.cache import cache
+    import reports.modules.hashtool as hashtool
+    
+    data_file_md5 = hashtool.md5file(data_file_path)
+    
+    cache_key = 'rb_aqr_macro' + ':' + data_file_md5
+    cached_result = cache.get(cache_key)
+
+    if cached_result is not None:
+        print('used cache')
+        return cached_result
+    else:
+        print('did not use cache')
+    
     inc = 0
     for i in range(0,7):
         ret1, ret2 = cleaned(i,inc)
@@ -98,10 +114,14 @@ def getData():
     sigs.reindex(idx)
     sigs2 = sigs.iloc[116:,:]
 
-    return [(sigs2.iloc[-1:,0:4],'Macro Momentum US'),  # -24 displays the last 2 years of data
+    result = [(sigs2.iloc[-1:,0:4],'Macro Momentum US'),  # -24 displays the last 2 years of data
                    (sigs2.iloc[-1:,4:8],'Macro Momentum UK'),
                    (sigs2.iloc[-1:,8:12],'Macro Momentum Japan'),
                    (sigs2.iloc[-1:,12:16],'Macro Momentum Canada'),
                    (sigs2.iloc[-1:,16:20],'Macro Momentum Australia'),
                    (sigs2.iloc[-1:,20:24],'Macro Momentum Switzerland'),
                    (sigs2.iloc[-1:,24:28],'Macro Momentum Denamrk')]
+
+    cache.set(cache_key, result)
+                   
+    return result
