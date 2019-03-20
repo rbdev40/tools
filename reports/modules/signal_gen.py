@@ -18,7 +18,8 @@ import os
 #  UTILITY FUNCTIONS
 #-------------------------------------------------------------------------------
 
-DATAIN_COLUMNS = 247
+DATAIN_COLUMNS = 150
+DATAIN_COLUMNS2 = 149
 
 def data_columns():
     """ Use excel column headings for data keys """
@@ -26,7 +27,7 @@ def data_columns():
     tail = [x + y for x in head for y in head]
     all_cols = head + tail
     #print(all_cols)
-    return all_cols[:DATAIN_COLUMNS]
+    return all_cols[:DATAIN_COLUMNS2]
 
 def make_gen(size, vector, start=0, length=1):
     """ Return a generator that is either a sliding slice of vector if
@@ -186,11 +187,12 @@ def signals(mkt_data, json_data, drop_periods):
 
 def main():
     
-    data_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/Datain0426.xlsx')
+    #data_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/Datain0426.xlsx')
+    data_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/vm_system_pull_simple.xlsx')
     
     mkt_data = pd.read_excel(
         data_file_path, # changed from m3_csv
-        index_col=0, usecols=range(sg.DATAIN_COLUMNS), dayfirst=False,
+        usecols=range(sg.DATAIN_COLUMNS), dayfirst=False, index_col=0, 
         parse_dates=True, na_values=['#VALUE!', '#NAME?', '#DIV/0!', '#N/A'],
         header=0, names=sg.data_columns())
     # mkt_data = pd.read_csv(
@@ -199,7 +201,7 @@ def main():
     #     parse_dates=True, na_values=['#VALUE!', '#NAME?', '#DIV/0!', '#N/A'],
     #     header=0, names=data_columns())
     
-    json_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/param.json')
+    json_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/new_param.json')
     
     json_file = open(json_file_path)
     json_data = json.load(json_file)

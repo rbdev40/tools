@@ -102,6 +102,7 @@ def rb_vm_system(request):
     tables = [];
     
     for d in data:
+        tables.append(d[1]) #.to_html(float_format=lambda x: '%4.3f' % (x), classes="table table-striped table-hover table-condensed"))
         tables.append(d[0].to_html(float_format=lambda x: '%4.3f' % (x), classes="table table-striped table-hover table-condensed"))
     
     context = {'tables': tables}
