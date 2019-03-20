@@ -22,7 +22,7 @@ def generateImage():
 def make_graph(time_series):
 	time_series.plot(subplots=True, figsize=(6, 6)); plt.legend(loc='Amazon')
 	plt.title('Amazon')
-	plt.savefig('staticfiles/Amazon.png')
+	plt.savefig(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'staticfiles/Amazon.png'))
 
 
 
