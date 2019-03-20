@@ -162,12 +162,12 @@ def getData():
     result.columns = ['V_Signal', 'V_Delta', 'V_Weight', 'M_Weight','M_Delta', 'C_Weight']
     result2.columns = ['V_Signal', 'V_Delta', 'V_Weight', 'M_Weight', 'M_Delta','C_Weight']
 
-    result = [(vrf.ix[-2:,EQUITY],'Value Equity Positions'),  # -24 displays the lat 2 years of data
-                   (vrf.ix[-2:,NONEQUITY],'Value Non-Equity Positions'),
-                   (mrf.ix[-2:,EQUITY],'Momentum Equity Positions'),
-                   (mrf.ix[-2:,NONEQUITY],'Momentum Non-Equity Positions'),
-                   (crf.ix[-2:,EQUITY],'V+M Equity Positions'),
-                   (crf.ix[-2:,NONEQUITY],'V+M Non-Equity Positions')]
+    result = [(vrf.ix[-2:,EQUITY],'<h3>Value Equity Positions</h3>'),  # -24 displays the lat 2 years of data
+                   (vrf.ix[-2:,NONEQUITY],'<h3>Value Non-Equity Positions</h3>'),
+                   (mrf.ix[-2:,EQUITY],'<h3>Momentum Equity Positions</h3>'),
+                   (mrf.ix[-2:,NONEQUITY],'<h3>Momentum Non-Equity Positions</h3>'),
+                   (crf.ix[-2:,EQUITY],'<h3>V+M Equity Positions</h3>'),
+                   (crf.ix[-2:,NONEQUITY],'<h3>V+M Non-Equity Positions</h3>')]
     
     cache.set(cache_key, result, 604800)
                    
