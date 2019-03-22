@@ -86,6 +86,7 @@ def rb_aqr_macro(request):
     tables = [];
     
     for d in data:
+        tables.append(d[1])
         tables.append(d[0].to_html(float_format=lambda x: '%4.3f' % (x), classes="table table-striped table-hover table-condensed"))
     
     context = {'tables': tables}
@@ -111,8 +112,8 @@ def rb_vm_system(request):
 
 def vol_regime(request):
     import reports.modules.vol_regime as vol_regime
-    var, drawdown = vol_regime.generateImage()
-    context = {'var': var, 'drawdown': drawdown}
+    var, drawdown, var2, drawdown2 = vol_regime.generateImage()
+    context = {'var': var, 'drawdown': drawdown, 'var2': var2, 'drawdown2': drawdown2}
     return render(request, 'reports/volatility.html', context)
 
 

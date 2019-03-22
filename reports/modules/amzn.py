@@ -10,6 +10,7 @@ import smtplib
 from pandas import Series
 from matplotlib import pyplot
 import matplotlib.pyplot as plt
+import matplotlib.dates as dates
 
 import os
 
@@ -20,9 +21,57 @@ def generateImage():
 
 #### very simple graph 
 def make_graph(time_series):
-	time_series.plot(subplots=True, figsize=(6, 6)); plt.legend(loc='Amazon')
-	plt.title('Amazon')
+
+	# steps = len(time_series.index)
+	# c = []
+	# for i in range(0,steps):
+	# 	if (i % 12 == 0):
+	# 		c.append(i) ## This could be changed to a different arrary with months or something
+	# 	else:
+	# 		c.append("")
+	# labels = c
+	
+	
+
+	time_series.iloc[:,0] = pd.to_datetime(time_series.iloc[:,0], format='%d/%b/%Y', utc=True)
+
+	x1 = time_series.iloc[:,0]
+	x2 = time_series.iloc[:,0]
+
+	#x1 = dates.date2num(time_series.iloc[:,0])
+	#x2 = dates.date2num(time_series.iloc[:,0])
+
+	#x1 = labels
+	#x2 = labels
+
+	y1 = time_series.iloc[:,1]
+	y2 = time_series.iloc[:,2]
+
+	plt.subplot(2, 1, 1)
+	plt.plot(x1, y1, 'g-')
+	plt.title('price data from amazon')
+	plt.xticks(rotation=45)
+	plt.ylabel('Batteries')
+
+	plt.subplot(2, 1, 2)
+	plt.plot(x2, y2, 'r.-')	
+	plt.xlabel('time (days)')
+	plt.xticks(rotation=45)
+	plt.ylabel('Laptops')
+	plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)
+
 	plt.savefig(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'staticfiles/Amazon.png'))
+
+
+
+#### very simple graph 
+# def make_graph(time_series):
+# 	#labels = time_series.iloc[:,0].astype(numeric)
+# 	labels = dates.date2num(time_series.iloc[:,0])
+# 	plt.xticks(labels, rotation=0) ##rotation='vertical'
+# 	time_series.iloc[:,1:3].plot(subplots=True, sharex=True, figsize=(6, 6)); plt.legend(loc='Graph')
+# 	plt.title('Test')
+# 	plt.savefig(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'staticfiles/Amazon.png'))
 
 
 
