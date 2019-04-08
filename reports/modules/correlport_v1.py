@@ -18,21 +18,27 @@ from pandas import Panel, DataFrame
 corMat = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/cormat.csv'))
 covMat = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/covar.csv'))
 Data = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/weights6.csv'), index_col=0,header=0)
-stdMat = pd.DataFrame(np.zeros((18,18)))
-covMatrix = pd.DataFrame(np.zeros((18,18)))
-prices = pd.DataFrame(np.zeros((300,18)))
-fin_corr = pd.DataFrame(np.zeros((300,18)))
-fin_corr = pd.DataFrame(np.zeros((300,18)))
+
+#l = len(corMat)
+l = 5
+## change all values to l to make code more dynamic
+
+
+#initialize blank matrices
+stdMat = pd.DataFrame(np.zeros((l,l)))  ### Every <l> wreplaces the value <18>
+covMatrix = pd.DataFrame(np.zeros((l,l)))
+prices = pd.DataFrame(np.zeros((300,l)))
+fin_corr = pd.DataFrame(np.zeros((300,l)))
 portfolio = pd.DataFrame(np.zeros((300,1)))
 
 mxDrawdown = np.array(np.zeros((252,1)))
 maxArray = pd.DataFrame(np.zeros((500,10)))
 
-weight = np.zeros(18)
-mu = np.zeros(18)
-sigma = np.zeros(18)
+weight = np.zeros(l)
+mu = np.zeros(l)
+sigma = np.zeros(l)
 
-for i in range(0,18):
+for i in range(0,l):
     weight[i] = Data.iloc[0,i]  
     mu[i] = Data.iloc[1,i]  
     sigma[i] = Data.iloc[2,i]
@@ -50,7 +56,7 @@ portSharpe = (portExpRet/portVol)
 # ------ Step 2 - Simulate Portfolio Returns
 
 n_days = 252
-n_assets = 18
+n_assets = l
 n_sims = 1000
 dt = .005
 x = np.linalg.cholesky(corMat)
@@ -62,15 +68,15 @@ def sim_cor(mu,sigma,x):
     portfolio.iloc[0,0] = 100
     
     for i in range(0,252):
-        for j in range(0,18):
+        for j in range(0,l):
             fin_corr.iloc[i,j] = corr_values[i][j]
 
-    for j in range(0,18):
+    for j in range(0,l):
         prices.iloc[0,j] = 100 
 
     for i in range(1,252):
         ret = 0
-        for j in range(0,18):
+        for j in range(0,l):
             # This is modeled as GBM (i.e. stock returns). Think more about this
             b = (mu[j]*dt) + fin_corr.iloc[i,j]
             prices.iloc[i,j] = prices.iloc[i-1,j] * (1+b)
@@ -83,7 +89,7 @@ def sim_cor(mu,sigma,x):
 # Graph The Results of the Correlated Assets
 def make_graph(prices):
     fig = plt.figure(figsize=(32,24))
-    prices.iloc[0:252,0:18].plot()
+    prices.iloc[0:252,0:12].plot()
     plt.title('Correlation')
     plt.savefig(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'staticfiles/drawdown'))
 
@@ -125,10 +131,12 @@ def generateImage():
     make_graph(prices)
 
 def getDrawdown():
-    z = maxArray.iloc[:10,1].mean()
+    p = (maxArray.iloc[:10,1].min()*100)
+    z = round(p,2) 
     return(z)
 
 def getVar():
-    q = maxArray.iloc[:10,1].min()
+    t = (maxArray.iloc[:10,1].mean()*100)
+    q = round(t,2)
     return(q)
 

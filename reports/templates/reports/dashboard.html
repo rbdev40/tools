@@ -12,7 +12,7 @@
         <canvas id="chart" width="150" height="150"></canvas>
         <script>
             var pieData = [
-                {% for item,label,colors in set %}
+                {% for item, label, colors in set_1 %}
                 {
                     value: {{item}},
                     label: "{{label}}",
@@ -20,10 +20,8 @@
                 },
                 {% endfor %}
             ];
-   
             // get bar chart canvas
             var mychart = document.getElementById("chart").getContext("2d");
-   
             steps = 10
             max = 10
             // draw pie chart
@@ -36,7 +34,7 @@
         <canvas id="chart2" width="150" height="150"></canvas>
         <script>
             var pieData2 = [
-                {% for item,label,colors in set %}
+                {% for item, label, colors in set_2 %}
                 {
                     value: {{item}},
                     label: "{{label}}",
@@ -44,10 +42,8 @@
                 },
                 {% endfor %}
             ];
-
             // get bar chart canvas
             var mychart2 = document.getElementById("chart2").getContext("2d");
-
             steps = 10
             max = 10
             // draw pie chart
@@ -60,7 +56,7 @@
         <canvas id="chart3" width="150" height="150"></canvas>
         <script>
             var pieData3 = [
-                {% for item,label,colors in set %}
+                {% for item, label, colors in set_3 %}
                 {
                     value: {{item}},
                     label: "{{label}}",
@@ -68,17 +64,14 @@
                 },
                 {% endfor %}
             ];
-
             // get bar chart canvas
             var mychart3 = document.getElementById("chart3").getContext("2d");
-
             steps = 10
             max = 10
             // draw pie chart
             new Chart(document.getElementById("chart3").getContext("2d")).Pie(pieData3); 
         </script>
     </div>
-
 </div>
 
 <div style="width:100%; height:25%; margin-top:150px">  <!--changes height according to how many rows -->
@@ -87,28 +80,24 @@
         <table class="table">
             <tbody>
                 <tr>
-                    {% for values2, risk in set2 %}
+                    {% for values2 in set2 %}
                     {{values2}},
                     {{risk}}
                     {% endfor %}
-                    <th class="col-xs-6">Duration</th>
+                    <th class="col-xs-6">DV01</th>
                     <th class="col-xs-6">{{values2.0}}</th>
                 </tr>
                 <tr>
-                    <td>DV01</td>
+                    <td>Carry</td>
                     <td>{{values2.1}}</td>
                 </tr>
                 <tr>
-                    <td>Carry</td>
+                    <td>95% VAR</td>
                     <td>{{values2.2}}</td>
                 </tr>
                 <tr>
-                    <td>95% VAR</td>
-                    <td>{{values2.3}}</td>
-                </tr>
-                <tr>
                     <td>Leverage</td>
-                    <td>{{values2.4}}</td>
+                    <td>{{values2.3}}</td>
                 </tr>
             </tbody>
         </table>
@@ -118,17 +107,17 @@
             <thead>
                 <tr>
                     <th class="col-xs-6">1-Day Pnl</th>
-                    <th class="col-xs-6">{{risk.0}}</th>
+                    <th class="col-xs-6">{{values2.4}}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>1-Month PnL</td>
-                    <td>{{risk.1}}</td>
+                    <td>{{values2.5}}</td>
                 </tr>
                 <tr>
                     <td>Carry PnL </td>
-                    <td>{{risk.2}}</td>
+                    <td>{{values2.6}}</td>
                 </tr>
             </tbody>
         </table>
