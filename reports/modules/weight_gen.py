@@ -8,6 +8,9 @@ import reports.modules.signal_gen as sg
 import os
 from django.core.cache import cache
 
+
+## cosmetic change
+
 EPSILON = 0.0001 # Floor for Log function
 
 def min1(x):
