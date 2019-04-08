@@ -9,8 +9,8 @@ def drawdown(request):
     
     variable = request.GET.get('variable')
     
-    if not (variable is None):
-        correlport_v1.generateImage()
+    #if not (variable is None):
+    correlport_v1.generateImage()
     
     var = correlport_v1.getVar()
     drawdown = correlport_v1.getDrawdown()
@@ -29,21 +29,31 @@ def dashboard(request):
     full_data_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), data_file_path)
     
     data = pd.read_csv(full_data_file_path)
-    
     data_file_md5 = hashtool.md5file(full_data_file_path)
 
     #new data pull
-    lab = data.iloc[7:11,0]
-    weights = data.iloc[7:11,1]
-    risk = data.iloc[0:5,1]
-    values2 = data.iloc[0:8,1]
-
-    labels = lab
-    values = weights
-    colors = [ "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA"]
+    labels = data.iloc[7:11,0]
+    values = data.iloc[7:11,1]
+    labels2 = data.iloc[11:13,0]
+    values_2 = data.iloc[11:13,1]
+    labels3 = data.iloc[13:17,0]
+    values_3 = data.iloc[13:17,1]
     
-    context = {'set': list(zip(values, labels, colors)), 'values2': values2, 'risk': risk, 'labels': labels}
+    colors = [ "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA"]
+
+    values2 = data.iloc[0:7,1] # pulls first 4 risk factors
+    #risk = data.iloc[4:7,1] # pulls next 3 PnL factors]
+    #labels_x = data.iloc[0:7,1]
+    
+    context = {'set_1': list(zip(values,labels, colors)), 
+                'set_2': list(zip(values_2, labels2, colors)), 
+                'set_3': list(zip(values_3, labels3, colors)), 
+                'values2': values2} ## I don't think we need the second set of labels
     return render(request, 'reports/dashboard.html', context)
+
+    #'set2': list(zip(values_2, labels2, colors)),
+    #labels = lab
+    #values = weights
 
 def timeSeries(request):
 

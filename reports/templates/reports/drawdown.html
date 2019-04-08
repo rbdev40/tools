@@ -1,4 +1,4 @@
-{% extends "./base.html" %}
+ {% extends "./base.html" %}
 {% load static %}
 
 {% block content %}
@@ -11,19 +11,21 @@
     <div class="col-sm-4">
         <form action="{% url 'drawdown' %}" method="get" accept-charset="utf-8">
             <div class="form-group">
-                <label for="variable">Volatility:</label>
-                <input type="text" class="form-control" name="variable" value="{{ variable|default_if_none:'' }}">
-            </div>
-            <div class="form-group">
                 <button type="submit" class="btn btn-default">Submit</button>
             </div>
-        </form>
+        <p><strong>Volatility:</strong> {{ variable }} </p>
 
-        <p><strong>Volatility:</strong> {{ variable }}</p>
+        <p><strong>Average Drawdown:</strong> {{ var }} % </p>
 
-        <p><strong>Average Drawdown:</strong> {{ var }}</p>
+        <p><strong>Max Drawdown:</strong> {{ drawdown }} % </p>
+        <br>
+        <br>
+        <p>This script takes as input the average return, standard deviation and weight for each asset in the portfolio along with a correlation matrix. It then simulates paths to calculate the average drawdown and worst drawdown for the portfolio over a one year period. </p>
 
-        <p><strong>Max Drawdown:</strong> {{ drawdown }}</p>
+        <p> Click the run button to run a fresh simulation. Current results are cached from the most recent simulation run </p>
+
+        <p> The chart at the right shows the price paths of individual assets for the last (i.e. 100th) simulation. </p> 
+
     </div>
     <div class="col-sm-7 col-sm-offset-1">
         <p><img src="{% static 'drawdown.png' %}" alt="" class="img-responsive"></p>
