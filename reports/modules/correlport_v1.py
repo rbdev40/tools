@@ -27,7 +27,7 @@ l = 5
 #initialize blank matrices
 stdMat = pd.DataFrame(np.zeros((l,l)))  ### Every <l> wreplaces the value <18>
 covMatrix = pd.DataFrame(np.zeros((l,l)))
-prices = pd.DataFrame(np.zeros((300,l)))
+prices = pd.DataFrame(np.zeros((300,l)), columns=['AGNC','Bank Credit','NF Credit','EM Credit','Argy'])
 fin_corr = pd.DataFrame(np.zeros((300,l)))
 portfolio = pd.DataFrame(np.zeros((300,1)))
 
@@ -45,6 +45,7 @@ for i in range(0,l):
 
 # ------ Step 1 - Calculate Portfolio Variance
 
+
 # Expected Return of the Portfolio:
 portExpRet = weight.dot(mu)
 
@@ -53,8 +54,9 @@ portVar = weight.T.dot(covMat.dot(weight))
 portVol = math.sqrt(portVar) #*math.sqrt(252)
 portSharpe = (portExpRet/portVol)
 
-# ------ Step 2 - Simulate Portfolio Returns
 
+
+# ------ Step 2 - Simulate Portfolio Returns
 n_days = 252
 n_assets = l
 n_sims = 1000
@@ -89,7 +91,7 @@ def sim_cor(mu,sigma,x):
 # Graph The Results of the Correlated Assets
 def make_graph(prices):
     fig = plt.figure(figsize=(32,24))
-    prices.iloc[0:252,0:12].plot()
+    prices.iloc[0:252,0:l].plot()
     plt.title('Correlation')
     plt.savefig(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'staticfiles/drawdown'))
 

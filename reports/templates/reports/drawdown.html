@@ -11,10 +11,8 @@
     <div class="col-sm-4">
         <form action="{% url 'drawdown' %}" method="get" accept-charset="utf-8">
             <div class="form-group">
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default">Run</button>
             </div>
-        <p><strong>Volatility:</strong> {{ variable }} </p>
-
         <p><strong>Average Drawdown:</strong> {{ var }} % </p>
 
         <p><strong>Max Drawdown:</strong> {{ drawdown }} % </p>

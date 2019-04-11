@@ -60,11 +60,11 @@ def scale_factor(ws, hs):
     return w.map(lambda x: max(x, 1.0))
 
 
-def combine_factors(v_delta, m_delta):
-    c_delta = pd.DataFrame(np.zeros((229,17)))
+def combine_factors(v_delta, m_delta,time):
+    c_delta = pd.DataFrame(np.zeros((time,17)))
     c_delta = c_delta.reindex_like(v_delta)
     for j in range(0,17):
-        for i in range(0,229):
+        for i in range(0,time):
             c_delta.iloc[i,j] = v_delta.iloc[i,j] + m_delta.iloc[i,j]
     return c_delta
 
@@ -109,7 +109,7 @@ def weights(mkt_data, json_data,time):
     momentum_resource = json_data["W_MOMENTUM"]
     v_delta = vd(vs, value_resource)
     m_delta = md(ms, momentum_resource)
-    c_delta = combine_factors(v_delta, m_delta)
+    c_delta = combine_factors(v_delta, m_delta, time)
     (vrf,mrf,crf) = reformat_factors(v_delta, m_delta, c_delta, time)
     vf = v_delta.reindex(columns=WEIGHTS)
     mf = m_delta.reindex(columns=WEIGHTS)
@@ -142,7 +142,7 @@ def getData():
     
 
     #### ** Key item is that we remove index_col=0 from the read_excel file
-    time = 229
+    time = 230
     mkt_data2 = pd.read_excel(
         mkt_data2_file_path, # changed from m3_csv
         usecols=range(sg.DATAIN_COLUMNS), dayfirst=False, index_col=0,

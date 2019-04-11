@@ -46,7 +46,7 @@ def make_gen(size, vector, start=0, length=1):
 def signal_series(data, f, size):
     """ Calculate a Series of signals from the data and function f.
             data is a sequence of triples that are arguments to make_gen """
-    gs = [make_gen(size, *p) for p in data]
+    gs = [make_gen(size, * p) for p in data]
     xs = zip(*gs)
     return Series((f(*x) for x in xs))
 
@@ -195,6 +195,7 @@ def main():
         usecols=range(sg.DATAIN_COLUMNS), dayfirst=False, index_col=0, 
         parse_dates=True, na_values=['#VALUE!', '#NAME?', '#DIV/0!', '#N/A'],
         header=0, names=sg.data_columns())
+
     # mkt_data = pd.read_csv(
     #     '/Users/rdewey/Desktop/rb_vm_system/csv/Datain0426_m3.csv',
     #     index_col=0, usecols=range(DATAIN_COLUMNS), dayfirst=False,

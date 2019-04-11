@@ -7,7 +7,7 @@ import os
 data_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/rb_final_aqr_nets_v5_scaled_cleaned.xls')
 
 #l = len(data_file_path)
-l = 470
+l = 471
 print(l)
 
 temp = pd.DataFrame(np.zeros((l,4)), columns=['Inflation', 'FX', '2yr', 'Equities']) # was 456
@@ -114,13 +114,12 @@ def getData():
         ret = final(ret2,inc,sigs)
         inc = inc + 4
 
-    head = list(sigs.columns.values)
-    sigs.columns = sigs.iloc[0,:]
-    sigs.reindex(idx)
+    #head = list(sigs.columns.values)
+    #sigs.columns = sigs.iloc[0,:]
+    #sigs.reindex(idx)
     sigs2 = sigs.iloc[116:,:]
-    sigs2.iloc[0,0] = 'Date'
-
-
+    sigs2.set_index('Date')
+    #sigs2.iloc[0,0] = 'Date'
 
     result = [(sigs2.iloc[-2:,0:4],'<h3>Macro Momentum US</h3>'),  # -24 displays the last 2 years of data
                    (sigs2.iloc[-2:,4:8],'<h3>Macro Momentum UK</h3>'),
