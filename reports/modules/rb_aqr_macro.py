@@ -115,11 +115,11 @@ def getData():
         inc = inc + 4
 
     #head = list(sigs.columns.values)
-    #sigs.columns = sigs.iloc[0,:]
-    #sigs.reindex(idx)
+    sigs.columns = sigs.iloc[0,:]
+    sigs.reindex(idx)
     sigs2 = sigs.iloc[116:,:]
-    sigs2.set_index('Date')
-    #sigs2.iloc[0,0] = 'Date'
+    #sigs2.set_index('Date')
+    sigs2.iloc[0,0] = 'Date'
 
     result = [(sigs2.iloc[-2:,0:4],'<h3>Macro Momentum US</h3>'),  # -24 displays the last 2 years of data
                    (sigs2.iloc[-2:,4:8],'<h3>Macro Momentum UK</h3>'),
