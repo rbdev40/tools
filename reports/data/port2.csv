@@ -1,14 +1,14 @@
 Category,Metric
-DV01,"3,915"
-carry,11.53
+DV01,"5,975"
+carry,48.21
 VaR ,23
-Leverage,0.98
-1-day PnL,1.4
-1-month PnL,14
-Carry PnL,6.5
-cash bonds,0.7
+Leverage,1.12
+1-day PnL,6
+1-month PnL,21.35
+Carry PnL,3.92
+cash bonds,0.9
 EM,0.15
-AGNC,0.1
+AGNC,0
 ETF,0.05
 Risk-On,0.98
 Risk-Off,0.02

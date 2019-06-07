@@ -18,6 +18,7 @@ from pandas import Panel, DataFrame
 corMat = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/cormat.csv'))
 covMat = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/covar.csv'))
 Data = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/weights6.csv'), index_col=0,header=0)
+print(Data)
 
 #l = len(corMat)
 l = 5

@@ -7,20 +7,23 @@ import os
 data_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/rb_final_aqr_nets_v5_scaled_cleaned.xls')
 
 #l = len(data_file_path)
-l = 471
+l = 473
 print(l)
 
 temp = pd.DataFrame(np.zeros((l,4)), columns=['Inflation', 'FX', '2yr', 'Equities']) # was 456
 temp2 = pd.DataFrame(np.zeros((l,4)), columns=['Inflation', 'FX', '2yr', 'Equities']) # was 456
 
-t_port = pd.read_excel(data_file_path)
+t_port = pd.read_excel(data_file_path,index_col=0, header=0)
 idx = t_port.index
+head = t_port.columns
+print(idx)
+print(head)
 
-temp3 = pd.DataFrame(np.zeros((l,35)), index=idx) # was 456
-d_port = pd.DataFrame(np.zeros((l,35)), index=idx) # was 456
-d_ret = pd.DataFrame(np.zeros((l,35)), index=idx) # was 456
-total_series = pd.DataFrame(np.zeros((l,35)), index=idx) # was 456
-sum1 = pd.DataFrame(np.zeros((100,35)))
+temp3 = pd.DataFrame(np.zeros((l,35)), index=idx) #columns=head) # was 456
+d_port = pd.DataFrame(np.zeros((l,35)), index=idx) #columns=head) # was 456
+d_ret = pd.DataFrame(np.zeros((l,35)), index=idx) #columns=head) # was 456
+total_series = pd.DataFrame(np.zeros((l,35)), index=idx) #columns=head) # was 456
+sum1 = pd.DataFrame(np.zeros((l,35)))
 
 countries = ['US', 'UK', 'Japan', 'Canada', 'Australia', 'Switzerland', 'Denmark', 'HK', 'Sweden', 'NZ']
 frames = [None]*5
@@ -29,7 +32,7 @@ def read(z):
     xl_dict = {}
     sheetname_list = ['US', 'UK', 'Japan', 'Canada', 'Australia', 'Switzerland', 'Denmark', 'HK', 'Sweden', 'NZ']
     for sheet in sheetname_list:
-        xl_dict[sheet] = pd.read_excel(data_file_path, sheet_name=sheet)
+        xl_dict[sheet] = pd.read_excel(data_file_path, sheet_name=sheet, index_col=0, header=0)
     return(xl_dict)
 
 def transfer(xl_dict, k):
@@ -114,20 +117,30 @@ def getData():
         ret = final(ret2,inc,sigs)
         inc = inc + 4
 
-    #head = list(sigs.columns.values)
-    sigs.columns = sigs.iloc[0,:]
-    sigs.reindex(idx)
-    sigs2 = sigs.iloc[116:,:]
-    #sigs2.set_index('Date')
-    sigs2.iloc[0,0] = 'Date'
+  
+    as_list = sigs.index.tolist()
+    as_list[0] = 'Date'
+    sigs.index = as_list
+    head = sigs.iloc[0,:]
+    sigs.columns = head
 
-    result = [(sigs2.iloc[-2:,0:4],'<h3>Macro Momentum US</h3>'),  # -24 displays the last 2 years of data
-                   (sigs2.iloc[-2:,4:8],'<h3>Macro Momentum UK</h3>'),
-                   (sigs2.iloc[-2:,8:12],'<h3>Macro Momentum Japan</h3>'),
-                   (sigs2.iloc[-2:,12:16],'<h3>Macro Momentum Canada</h3>'),
-                   (sigs2.iloc[-2:,16:20],'<h3>Macro Momentum Australia</h3>'),
-                   (sigs2.iloc[-2:,20:24],'<h3>Macro Momentum Switzerland</h3>'),
-                   (sigs2.iloc[-2:,24:28],'<h3>Macro Momentum Denamrk</h3>')]
+    #sigs = sigs.reindex_like(t_port)
+    #sigs2 = sigs.iloc[116:,:]
+    #head = list(sigs.columns.values)
+    
+    #sigs2.reindex_like(t_port)
+    #v_delta.reindex(columns=WEIGHTS)
+    #sigs2.rename(columns=lambda x: x[0:], inplace=True)
+    print(sigs.columns) # = ['Inflation', 'FX', '2yr', 'Equities']
+    print(sigs)
+
+    result = [(sigs.iloc[-2:,0:4],'<h3>Macro Momentum US</h3>'),  # -24 displays the last 2 years of data
+                   (sigs.iloc[-2:,4:8],'<h3>Macro Momentum UK</h3>'),
+                   (sigs.iloc[-2:,8:12],'<h3>Macro Momentum Japan</h3>'),
+                   (sigs.iloc[-2:,12:16],'<h3>Macro Momentum Canada</h3>'),
+                   (sigs.iloc[-2:,16:20],'<h3>Macro Momentum Australia</h3>'),
+                   (sigs.iloc[-2:,20:24],'<h3>Macro Momentum Switzerland</h3>'),
+                   (sigs.iloc[-2:,24:28],'<h3>Macro Momentum Denamrk</h3>')]
 
     cache.set(cache_key, result, 604800)
                    
