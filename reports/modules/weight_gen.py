@@ -142,7 +142,7 @@ def getData():
     
 
     #### ** Key item is that we remove index_col=0 from the read_excel file
-    time = 232
+    time = 233
     mkt_data2 = pd.read_excel(
         mkt_data2_file_path, # changed from m3_csv
         usecols=range(sg.DATAIN_COLUMNS), dayfirst=False, index_col=0,

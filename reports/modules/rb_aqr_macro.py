@@ -7,7 +7,7 @@ import os
 data_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/rb_final_aqr_nets_v5_scaled_cleaned.xls')
 
 #l = len(data_file_path)
-l = 473
+l = 474
 print(l)
 
 temp = pd.DataFrame(np.zeros((l,4)), columns=['Inflation', 'FX', '2yr', 'Equities']) # was 456
